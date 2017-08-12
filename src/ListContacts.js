@@ -13,23 +13,33 @@ class ListContacts extends Component {
     query: ""
   }
 
+  searchInputUpdate = this.searchInputUpdate.bind(this);
+  resetContacts = this.resetContacts.bind(this);
+
   searchInputUpdate(queryInp) {
     //console.log('ev.target.value: ' + ev.target.value);
     this.setState({ query: queryInp.trim() });
   }
 
+  resetContacts() {
+    this.setState({ query: ""});
+  }
+
   render() {
     const { contacts, deleteContact} = this.props;
+    const { query } = this.state;
     let showingContacts
 
     if (this.state.query) {
-      const match = new RegExp(escapeRegExp(this.state.query), 'i')
+      const match = new RegExp(escapeRegExp(query), 'i')
       // filter contacts prop based on whether contact name contains the match regex
       showingContacts = contacts.filter(contact => (match.test(contact.name)
       ))
     } else {
       showingContacts = contacts;
     }
+
+    showingContacts.sort(sortBy('name'));
 
     return (
       <div className="list-contacts">
@@ -40,6 +50,9 @@ class ListContacts extends Component {
             placeholder="Search contacts"
             value={this.state.query} 
             onChange={(ev) => this.searchInputUpdate(ev.target.value)} />
+        </div>
+        <div>
+          <p>Now showing {showingContacts.length} of {contacts.length}. <span onClick={this.resetContacts}>Show All.</span></p>
         </div>
         <ol className="ordered-list">
           {showingContacts.map((contact, idx) => (
