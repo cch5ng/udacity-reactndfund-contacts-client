@@ -51,9 +51,12 @@ class ListContacts extends Component {
             value={this.state.query} 
             onChange={(ev) => this.searchInputUpdate(ev.target.value)} />
         </div>
-        <div>
-          <p>Now showing {showingContacts.length} of {contacts.length}. <span onClick={this.resetContacts}>Show All.</span></p>
-        </div>
+        { showingContacts.length !== contacts.length && (
+          <div className="showing-contacts">
+            <span>Now showing {showingContacts.length} of {contacts.length} total.</span>
+            <button onClick={this.resetContacts}> Show All.</button>
+          </div>
+        )}
         <ol className="ordered-list">
           {showingContacts.map((contact, idx) => (
             <li key={contact.id} className="contact-list-item">
