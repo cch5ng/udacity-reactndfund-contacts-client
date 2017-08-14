@@ -26,7 +26,7 @@ class ListContacts extends Component {
   }
 
   render() {
-    const { contacts, deleteContact} = this.props;
+    const { contacts, deleteContact, updateScreen } = this.props;
     const { query } = this.state;
     let showingContacts
 
@@ -50,6 +50,10 @@ class ListContacts extends Component {
             placeholder="Search contacts"
             value={this.state.query} 
             onChange={(ev) => this.searchInputUpdate(ev.target.value)} />
+          <a href="#create"
+            onClick={() => {updateScreen("create")}}
+            className="add-contact"
+          >Add Contact</a>
         </div>
         { showingContacts.length !== contacts.length && (
           <div className="showing-contacts">
