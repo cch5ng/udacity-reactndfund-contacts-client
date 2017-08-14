@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import ListContacts from './ListContacts';
 import * as ContactsAPI from './utils/ContactsAPI';
+import CreateContact from './CreateContact';
 
 class App extends Component {
   state = {
+    screen: 'list', // 'list' || 'create'
     contacts: []
   }
+
+  updateScreen = this.updateScreen.bind(this);
 
   componentDidMount() {
     ContactsAPI.getAll().then(contacts => {
@@ -28,10 +32,17 @@ class App extends Component {
     })
   }
 
+  updateScreen(screenStr) {
+    this.setState({ screen: screenStr });
+  }
+
   render() {
     return (
       <div>
-      	<ListContacts contacts={this.state.contacts} deleteContact={this.deleteContact} />
+        { this.state.screen === 'list'
+          ? <ListContacts contacts={this.state.contacts} deleteContact={this.deleteContact} updateScreen={this.updateScreen} />
+          : <CreateContact />
+        }
       </div>
     )
   }
