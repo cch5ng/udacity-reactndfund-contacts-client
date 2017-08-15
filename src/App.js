@@ -38,8 +38,7 @@ class App extends Component {
         {/* use render prop in order to pass in app state */}
         <Route exact path="/" render={() => (
           <ListContacts contacts={this.state.contacts} 
-            deleteContact={this.deleteContact} 
-            updateScreen={this.updateScreen} />
+            deleteContact={this.deleteContact} />
         )} />
 
         <Route path="/create" component={CreateContact} />
