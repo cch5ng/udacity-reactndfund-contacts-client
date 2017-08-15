@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
+import { Route } from 'react-router-dom';
 import ListContacts from './ListContacts';
 import * as ContactsAPI from './utils/ContactsAPI';
 import CreateContact from './CreateContact';
 
 class App extends Component {
   state = {
-    screen: 'list', // 'list' || 'create'
     contacts: []
   }
 
@@ -32,17 +32,18 @@ class App extends Component {
     })
   }
 
-  updateScreen(screenStr) {
-    this.setState({ screen: screenStr });
-  }
-
   render() {
     return (
       <div>
-        { this.state.screen === 'list'
-          ? <ListContacts contacts={this.state.contacts} deleteContact={this.deleteContact} updateScreen={this.updateScreen} />
-          : <CreateContact />
-        }
+        {/* use render prop in order to pass in app state */}
+        <Route exact path="/" render={() => (
+          <ListContacts contacts={this.state.contacts} 
+            deleteContact={this.deleteContact} 
+            updateScreen={this.updateScreen} />
+        )} />
+
+        <Route path="/create" component={CreateContact} />
+        )} />
       </div>
     )
   }
